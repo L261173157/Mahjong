@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mahjong", "Mahjong\Mahjong.csproj", "{48158745-7C56-45D1-9B1D-2FD2B23DC38E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48158745-7C56-45D1-9B1D-2FD2B23DC38E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48158745-7C56-45D1-9B1D-2FD2B23DC38E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48158745-7C56-45D1-9B1D-2FD2B23DC38E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48158745-7C56-45D1-9B1D-2FD2B23DC38E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {20C98875-3806-4DE4-8D83-314405AF807B}
+	EndGlobalSection
+EndGlobal

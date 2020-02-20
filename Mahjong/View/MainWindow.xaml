@@ -1,0 +1,38 @@
+﻿<Window x:Class="Mahjong.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mahjong.View"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="650" Width="1249" DataContext="{Binding Main, Mode=OneWay, Source={StaticResource Locator}}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button Content="test1" HorizontalAlignment="Left" Margin="386,388,0,0" VerticalAlignment="Top" Width="76" Command="{Binding TestCmd}"/>
+        <TextBlock HorizontalAlignment="Left" Margin="117,368,0,0" TextWrapping="Wrap" Text="{Binding BaseModel.InitialCards.Count, Mode=OneWay}" VerticalAlignment="Top"/>
+        <Label Content="底牌总数量" HorizontalAlignment="Left" Margin="42,364,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.343,1.577"/>
+        <TextBlock HorizontalAlignment="Left" Margin="823,16,0,0" TextWrapping="Wrap" Text="{Binding NorthPlayer.PlayedCards.Count, Mode=OneWay}" VerticalAlignment="Top"/>
+        <Label Content="北玩家已打" HorizontalAlignment="Left" Margin="747,10,0,0" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="556,17,0,0" TextWrapping="Wrap" Text="{Binding SouthPlayer.PlayedCards.Count, Mode=OneWay}" VerticalAlignment="Top"/>
+        <Label Content="南玩家已打" HorizontalAlignment="Left" Margin="482,11,0,0" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="689,18,0,0" TextWrapping="Wrap" Text="{Binding WestPlayer.PlayedCards.Count, Mode=OneWay}" VerticalAlignment="Top"/>
+        <Label Content="西玩家已打" HorizontalAlignment="Left" Margin="613,13,0,0" VerticalAlignment="Top"/>
+        <Button Content="test2" HorizontalAlignment="Left" Margin="388,412,0,0" VerticalAlignment="Top" Width="74"/>
+        <Button Content="Start" HorizontalAlignment="Left" Margin="38,406,0,0" VerticalAlignment="Top" Width="74" Command="{Binding StartCmd}"/>
+        <CheckBox Content="电脑玩家" HorizontalAlignment="Left" Margin="486,41,0,0" VerticalAlignment="Top" IsChecked="{Binding SouthPlayer.IsComputer}"/>
+        <CheckBox Content="电脑玩家" HorizontalAlignment="Left" Margin="618,44,0,0" VerticalAlignment="Top" IsChecked="{Binding WestPlayer.IsComputer}"/>
+        <CheckBox Content="电脑玩家" HorizontalAlignment="Left" Margin="753,41,0,0" VerticalAlignment="Top" IsChecked="{Binding NorthPlayer.IsComputer}"/>
+        <ListBox HorizontalAlignment="Left" Height="260" Margin="463,62,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding SouthPlayer.PlayedCards}" DisplayMemberPath="SuitAndRank"/>
+        <ListBox HorizontalAlignment="Left" Height="260" Margin="319,62,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding EastPlayer.PlayedCards}" DisplayMemberPath="SuitAndRank"/>
+        <ListBox HorizontalAlignment="Left" Height="260" Margin="596,62,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding WestPlayer.PlayedCards}" DisplayMemberPath="SuitAndRank"/>
+        <ListBox HorizontalAlignment="Left" Height="260" Margin="730,62,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding NorthPlayer.PlayedCards}" DisplayMemberPath="SuitAndRank"/>
+        <TextBlock HorizontalAlignment="Left" Margin="405,15,0,0" TextWrapping="Wrap" Text="{Binding EastPlayer.PlayedCards.Count, Mode=OneWay}" VerticalAlignment="Top"/>
+        <Label Content="东玩家已打" HorizontalAlignment="Left" Margin="331,9,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="电脑玩家" HorizontalAlignment="Left" Margin="339,41,0,0" VerticalAlignment="Top" IsChecked="{Binding EastPlayer.IsComputer}"/>
+        <ListBox HorizontalAlignment="Left" Height="260" Margin="38,62,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding EastPlayer.PlayerCards}" DisplayMemberPath="SuitAndRank" Name="EastPlay"/>
+        <Button Content="打牌" HorizontalAlignment="Left" Margin="156,170,0,0" VerticalAlignment="Top" Width="76" Command="{Binding EastPlayCmd}" CommandParameter="{Binding SelectedIndex, ElementName=EastPlay}"/>
+
+    </Grid>
+</Window>
