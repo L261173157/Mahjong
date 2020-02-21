@@ -131,7 +131,9 @@ namespace Mahjong.Model
 		}
 
 		private string suitAndRank;
-
+		/// <summary>
+		/// 牌面+花色
+		/// </summary>
 		public string SuitAndRank
 		{
 			get { return suitAndRank; }

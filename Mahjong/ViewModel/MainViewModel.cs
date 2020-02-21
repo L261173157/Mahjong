@@ -161,28 +161,17 @@ namespace Mahjong.ViewModel
         #region √¸¡Ó∑Ω∑®
         private void Test()
         {
-            baseModel.InitialCards= BaseMethod.ShuffleCards(baseModel.InitialCards);
-
-            BaseMethod.FirstDealCards(baseModel.InitialCards, eastPlayer.PlayerCards, SouthPlayer.PlayerCards, WestPlayer.PlayerCards, NorthPlayer.PlayerCards);
-           
-            BaseMethod.EveryTimeDealCards(baseModel.InitialCards, eastPlayer.PlayerCards);
-
- 
-            
+            eastPlayer.Open();
         }
 
         private void Test2(string SerialNumer)
         {
-            if (status==11)
-            {
-                eastPlayer.Play(Convert.ToInt32(SerialNumer));
-                status = 20;
-            }
+            eastPlayer.Open();
         }
 
         private void start()
         {
-            BaseMethod.ShuffleCards(baseModel.InitialCards);
+            baseModel.InitialCards = BaseMethod.ShuffleCards(baseModel.InitialCards);
             BaseMethod.FirstDealCards(baseModel.InitialCards, eastPlayer.PlayerCards, SouthPlayer.PlayerCards, WestPlayer.PlayerCards, NorthPlayer.PlayerCards);
             eastPlayer.Sort();
             status = 10;
@@ -211,7 +200,7 @@ namespace Mahjong.ViewModel
                     BaseMethod.EveryTimeDealCards(baseModel.InitialCards, eastPlayer.PlayerCards);
                     if (eastPlayer.IsComputer)
                     {
-                       // eastPlayer.Play();
+                        eastPlayer.Play();
                         MainFlow();
                     }
                     else
