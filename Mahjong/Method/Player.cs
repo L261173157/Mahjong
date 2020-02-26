@@ -40,7 +40,7 @@ namespace Mahjong.Method
         public Boolean IsComputer { get; set; }
         #endregion
 
-        #region 外部方法
+        #region 普通方法
         /// <summary>
         /// 人工打牌方法
         /// </summary>
@@ -53,6 +53,7 @@ namespace Mahjong.Method
                 {
                     PlayedCards.Add(PlayerCards[SerialNumber]);
                     PlayerCards.RemoveAt(SerialNumber);
+                    
                 }
                 else
                 {
@@ -87,7 +88,6 @@ namespace Mahjong.Method
             Sort();
 
         }
-
         /// <summary>
         /// 排序
         /// </summary>
@@ -124,68 +124,157 @@ namespace Mahjong.Method
                 PlayerCards[i] = lst[i];
             }
         }
-        public int Action(TypeModel card)
-        {
-            
-        }
+        
         #endregion
 
-        #region 内部方法
-        public void Open()
-        {
-            OpenedCards.Add(PlayerCards[0]);
-            OpenedCards.Add(PlayerCards[1]);
-            OpenedCards.Add(PlayerCards[2]);
-            PlayerCards.RemoveAt(0);
-            PlayerCards.RemoveAt(0);
-            PlayerCards.RemoveAt(0);
-        }
+        #region 判定方法
         /// <summary>
-        /// 吃牌,0无动作,1动作
+        /// 判定吃牌,-1无动作,>=1动作
         /// </summary>
         /// <param name="card"></param>
         /// <returns></returns>
-        private int Chow(TypeModel card)
+        public int JudgeChow(TypeModel card)
         {
-            int num = 0;
-
-            for (int i = 0; i < PlayerCards.Count; i++)
+            List<int> orderNumber=new List<int>();
+            int totalNumber=0;
+            if (card.Suit==Suit.条|| card.Suit == Suit.饼|| card.Suit == Suit.万)
             {
-                int? a = card.Rank - PlayerCards[i].Rank;
-                
-                if (card.Suit==PlayerCards[i].Suit)
+                for (int i = 0; i < PlayerCards.Count - 1; i++)
                 {
-                    if (a==-1)
+                    if (card.Suit == PlayerCards[i].Suit && card.Suit == PlayerCards[i + 1].Suit)
                     {
-
-                    }
-                }
+                        if (card.Rank+1==PlayerCards[i].Rank&& card.Rank + 2 == PlayerCards[i+1].Rank )
+                        {
+                            orderNumber.Add(i);
+                            totalNumber++;
+                        }
+                        else if (card.Rank -1  == PlayerCards[i].Rank && card.Rank + 1 == PlayerCards[i + 1].Rank)
+                        {
+                            orderNumber.Add(i);
+                            totalNumber++;
+                        }
+                        else if (card.Rank - 2 == PlayerCards[i].Rank && card.Rank - 1 == PlayerCards[i + 1].Rank)
+                        {
+                            orderNumber.Add(i);
+                            totalNumber++;
+                        }   
+                    } 
+                }              
             }
+            else
+            {
+                totalNumber = -1;     
+            }
+            return totalNumber;
+        }
+
+        /// <summary>
+        /// 判定碰牌
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public int JudgePung(TypeModel card)
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// 判定杠牌
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public int JudgeKong(TypeModel card)
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// 判定自身杠牌
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public int JudgeKongSelf()
+        {
+            return 0;
+        }
+        
+        /// <summary>
+        /// 判定和牌
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public int JudgeClaim(TypeModel card)
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// 判定自身和牌
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public int JudgeClaimSelf()
+        {
+            return 0;
+        }
+        #endregion
+
+        #region 动作方法
+        /// <summary>
+        /// 和牌
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public int Claim(TypeModel card)
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// 自身和牌
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public int ClaimSelf()
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// 杠牌
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public int Kong(TypeModel card)
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// 自身杠牌
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public int KongSelf()
+        {
+            return 0;
         }
         /// <summary>
         /// 碰牌
         /// </summary>
         /// <param name="card"></param>
         /// <returns></returns>
-        private int Pung(TypeModel card)
+        public int Pung(TypeModel card)
         {
             return 0;
         }
+
         /// <summary>
-        /// 杠牌
+        /// 吃牌
         /// </summary>
         /// <param name="card"></param>
         /// <returns></returns>
-        private int Kong(TypeModel card)
-        {
-            return 0;
-        }
-        /// <summary>
-        /// 和牌
-        /// </summary>
-        /// <param name="card"></param>
-        /// <returns></returns>
-        private int Claim(TypeModel card)
+        public int Chow(TypeModel card)
         {
             return 0;
         }

@@ -13,10 +13,7 @@ namespace Mahjong.Method
     /// </summary>
     public class BaseMethod 
     {
-        #region 属性定义
-
-        #endregion
-
+        
         #region 方法
         /// <summary>
         /// 洗牌方法
