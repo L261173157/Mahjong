@@ -42,52 +42,41 @@ namespace Mahjong.Method
 
         #region 普通方法
         /// <summary>
-        /// 人工打牌方法
+        /// 打牌
         /// </summary>
-        /// <param name="SerialNumber">第几张牌</param>
-        public void Play(int SerialNumber)
+        /// <param name="SerialNumber">人工第几张</param>
+        /// <returns>已打的牌</returns>
+        public TypeModel Play(int SerialNumber)
         {
+            TypeModel tempPlayed; 
             if (IsComputer==false)
             {
                 if (SerialNumber!=-1)
                 {
-                    PlayedCards.Add(PlayerCards[SerialNumber]);
+                    tempPlayed = PlayerCards[SerialNumber];
                     PlayerCards.RemoveAt(SerialNumber);
-                    
+                    return tempPlayed;
                 }
                 else
                 {
-                    PlayedCards.Add(PlayerCards.Last());
+                    tempPlayed = PlayerCards.Last();
                     PlayerCards.RemoveAt(PlayerCards.Count-1);
+                    return tempPlayed;
                 }
                 
             }
             else
             {
-                throw new ArgumentException("IsComputer is wrong");
-            }
-            Sort();
-        }
-        /// <summary>
-        /// 电脑打牌方法
-        /// </summary>
-        public void Play()
-        {
-            if (IsComputer)
-            {
                 //需添加打牌判断
                 Random random = new Random();
-                int Index = random.Next(PlayedCards.Count);
-                PlayedCards.Add(PlayerCards[Index]);
+                int Index = random.Next(PlayerCards.Count);
+                tempPlayed= PlayerCards[Index];
                 PlayerCards.RemoveAt(Index);
-            }
-            else
-            {
-                throw new ArgumentException("IsComputer is wrong");
+                return tempPlayed;
             }
             Sort();
-
         }
+       
         /// <summary>
         /// 排序
         /// </summary>
@@ -116,7 +105,7 @@ namespace Mahjong.Method
                         }
                     }
                     else
-                        return oSuit;
+                        return Convert.ToInt32(oSuit);
                 }
             );
             for (int i = 0; i < lst.Count; i++)
@@ -124,7 +113,17 @@ namespace Mahjong.Method
                 PlayerCards[i] = lst[i];
             }
         }
-        
+        /// <summary>
+        /// 入手待定牌
+        /// </summary>
+        /// <param name="t"></param>
+        public void Commmence(TypeModel t)
+        {
+
+            PlayerCards.Add(new TypeModel(t));
+            t.Clear();
+        }
+
         #endregion
 
         #region 判定方法
@@ -187,16 +186,6 @@ namespace Mahjong.Method
         {
             return 0;
         }
-
-        /// <summary>
-        /// 判定自身杠牌
-        /// </summary>
-        /// <param name="card"></param>
-        /// <returns></returns>
-        public int JudgeKongSelf()
-        {
-            return 0;
-        }
         
         /// <summary>
         /// 判定和牌
@@ -208,15 +197,6 @@ namespace Mahjong.Method
             return 0;
         }
 
-        /// <summary>
-        /// 判定自身和牌
-        /// </summary>
-        /// <param name="card"></param>
-        /// <returns></returns>
-        public int JudgeClaimSelf()
-        {
-            return 0;
-        }
         #endregion
 
         #region 动作方法
@@ -231,16 +211,6 @@ namespace Mahjong.Method
         }
 
         /// <summary>
-        /// 自身和牌
-        /// </summary>
-        /// <param name="card"></param>
-        /// <returns></returns>
-        public int ClaimSelf()
-        {
-            return 0;
-        }
-
-        /// <summary>
         /// 杠牌
         /// </summary>
         /// <param name="card"></param>
@@ -250,15 +220,6 @@ namespace Mahjong.Method
             return 0;
         }
 
-        /// <summary>
-        /// 自身杠牌
-        /// </summary>
-        /// <param name="card"></param>
-        /// <returns></returns>
-        public int KongSelf()
-        {
-            return 0;
-        }
         /// <summary>
         /// 碰牌
         /// </summary>
@@ -280,8 +241,5 @@ namespace Mahjong.Method
         }
 
         #endregion
-
-
-
     }
 }

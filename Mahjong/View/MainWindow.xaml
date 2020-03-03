@@ -10,7 +10,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBlock HorizontalAlignment="Left" Margin="113,16,0,0" TextWrapping="Wrap" Text="{Binding BaseModel.InitialCards.Count, Mode=OneWay}" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="113,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding BaseCards.InitialCards.Count, Mode=OneWay}"/>
         <Label Content="底牌总数量" HorizontalAlignment="Left" Margin="38,12,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.343,1.577"/>
         <TextBlock HorizontalAlignment="Left" Margin="823,16,0,0" TextWrapping="Wrap" Text="{Binding NorthPlayer.PlayedCards.Count, Mode=OneWay}" VerticalAlignment="Top"/>
         <Label Content="北玩家已打" HorizontalAlignment="Left" Margin="747,10,0,0" VerticalAlignment="Top"/>
@@ -35,6 +35,12 @@
         <ListBox HorizontalAlignment="Left" Height="164" Margin="463,342,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding SouthPlayer.OpenedCards}" DisplayMemberPath="SuitAndRank" Background="Blue"/>
         <ListBox HorizontalAlignment="Left" Height="164" Margin="596,342,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding WestPlayer.OpenedCards}" DisplayMemberPath="SuitAndRank" Background="Blue"/>
         <ListBox HorizontalAlignment="Left" Height="164" Margin="730,342,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding NorthPlayer.OpenedCards}" DisplayMemberPath="SuitAndRank" Background="Blue"/>
+        <TextBox HorizontalAlignment="Left" Height="34" Margin="258,342,0,0" TextWrapping="Wrap" Text="{Binding BaseCards.UndeterminedCard.SuitAndRank}" VerticalAlignment="Top" Width="117"/>
+        <Label Content="待定牌" HorizontalAlignment="Left" Margin="212,342,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.343,1.577" Height="34"/>
+        <TextBox HorizontalAlignment="Left" Height="34" Margin="258,393,0,0" TextWrapping="Wrap" Text="{Binding Status}" VerticalAlignment="Top" Width="117"/>
+        <Label Content="Status" HorizontalAlignment="Left" Margin="212,393,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.343,1.577" Height="34"/>
+        <TextBox HorizontalAlignment="Left" Height="34" Margin="259,445,0,0" TextWrapping="Wrap" Text="{Binding PlayerOrder}" VerticalAlignment="Top" Width="117"/>
+        <Label Content="PlayerOrder" HorizontalAlignment="Left" Margin="180,445,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.343,1.577" Height="34"/>
 
     </Grid>
 </Window>

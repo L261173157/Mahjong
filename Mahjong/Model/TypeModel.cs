@@ -92,19 +92,36 @@ namespace Mahjong.Model
 		/// <param name="newsuit">花色</param>
 		/// <param name="newrank">面值</param>
 		/// <param name="newisOpen">是否明示</param>
-		public TypeModel(Suit newsuit,Rank? newrank,bool newisOpen)
+		public TypeModel(Suit newsuit,Rank? newrank )
 		{
-			suit = newsuit;
-			rank = newrank;
-			isOpenCard = newisOpen;
-			suitAndRank = this.rank.ToString() + "" + this.suit.ToString();
+			Suit = newsuit;
+			Rank = newrank;
+			
+			SuitAndRank = this.rank.ToString() + "" + this.suit.ToString();
+		}
+		public TypeModel(TypeModel previousTypeModel)
+		{
+			Suit = previousTypeModel.Suit;
+			Rank = previousTypeModel.Rank;
+			SuitAndRank = previousTypeModel.SuitAndRank;
+		}
+		public TypeModel()
+		{
+			suit = null;
+			rank = null;
+		}
+		public void Clear()
+		{
+			Suit = null;
+			Rank = null;
+			SuitAndRank = this.rank.ToString() + "" + this.suit.ToString();
 		}
 		#region 属性定义
-		private Suit suit;
+		private Suit? suit;
 		/// <summary>
 		/// 花色属性
 		/// </summary>
-		public Suit Suit
+		public Suit? Suit
 		{
 			get { return suit; }
 			set { suit = value; RaisePropertyChanged(nameof(Suit)); }
@@ -119,16 +136,8 @@ namespace Mahjong.Model
 			get { return rank; }
 			set { rank = value; RaisePropertyChanged(nameof(Rank)); }
 		}
-		//额外属性
-		private bool isOpenCard;
-		/// <summary>
-		/// 是否明示牌面,0未明示，1已明示
-		/// </summary>
-		public bool IsOpenCard
-		{
-			get { return isOpenCard; }
-			set { isOpenCard = value; RaisePropertyChanged(nameof(IsOpenCard)); }
-		}
+		
+		
 
 		private string suitAndRank;
 		/// <summary>

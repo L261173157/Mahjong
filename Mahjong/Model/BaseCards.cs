@@ -12,11 +12,12 @@ namespace Mahjong.Model
     /// <summary>
     /// 底牌数据
     /// </summary>
-   public class BaseModel:ObservableObject
+   public class BaseCards:ObservableObject
     {
-        public BaseModel()
+        public BaseCards()
         {
             initialCards = new ObservableCollection<TypeModel>();
+            undeterminedCard = new TypeModel();
         }
         #region 属性定义
         #region 底牌牌面
@@ -29,6 +30,17 @@ namespace Mahjong.Model
             get { return initialCards; }
             set { initialCards = value; RaisePropertyChanged(nameof(InitialCards)); }
         }
+
+        private TypeModel undeterminedCard;
+        /// <summary>
+        /// 待定牌
+        /// </summary>
+        public TypeModel UndeterminedCard
+        {
+            get { return undeterminedCard; }
+            set { undeterminedCard = value; RaisePropertyChanged(nameof(UndeterminedCard)); }
+        }
+
         #endregion
         #endregion
     }

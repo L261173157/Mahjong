@@ -31,17 +31,17 @@ namespace Mahjong.Method
             {
                 foreach (Rank rank in Enum.GetValues(typeof(Rank)))
                 {
-                    IInitialCards.Add(new TypeModel(Suit.条, rank, false));
-                    IInitialCards.Add(new TypeModel(Suit.万, rank, false));
-                    IInitialCards.Add(new TypeModel(Suit.饼, rank, false));
+                    IInitialCards.Add(new TypeModel(Suit.条, rank));
+                    IInitialCards.Add(new TypeModel(Suit.万, rank));
+                    IInitialCards.Add(new TypeModel(Suit.饼, rank));
                 }
-                IInitialCards.Add(new TypeModel(Suit.红中, null, false));
-                IInitialCards.Add(new TypeModel(Suit.发财, null, false));
-                IInitialCards.Add(new TypeModel(Suit.白板, null, false));
-                IInitialCards.Add(new TypeModel(Suit.东风, null, false));
-                IInitialCards.Add(new TypeModel(Suit.南风, null, false));
-                IInitialCards.Add(new TypeModel(Suit.西风, null, false));
-                IInitialCards.Add(new TypeModel(Suit.北风, null, false));
+                IInitialCards.Add(new TypeModel(Suit.红中, null));
+                IInitialCards.Add(new TypeModel(Suit.发财, null));
+                IInitialCards.Add(new TypeModel(Suit.白板, null));
+                IInitialCards.Add(new TypeModel(Suit.东风, null));
+                IInitialCards.Add(new TypeModel(Suit.南风, null));
+                IInitialCards.Add(new TypeModel(Suit.西风, null));
+                IInitialCards.Add(new TypeModel(Suit.北风, null));
             }
             Random random = new Random();
             var newlist = new ObservableCollection<TypeModel>();
@@ -106,29 +106,25 @@ namespace Mahjong.Method
         }
 
         /// <summary>
-        /// 每次发牌方法
+        /// 发牌到待定
         /// </summary>
-        /// <param name="IInitialCards"></param>
-        /// <param name="PlayerCards"></param>
-        public static void  EveryTimeDealCards(ObservableCollection<TypeModel> IInitialCards, ObservableCollection<TypeModel> PlayerCards)
+        /// <param name="IInitialCards"></param>      
+        public static TypeModel DealCards(ObservableCollection<TypeModel> IInitialCards)
         {
-            if (PlayerCards == null)
-            {
-                throw new ArgumentNullException(nameof(PlayerCards));
-            }
+            TypeModel t =new TypeModel();
             if (IInitialCards == null)
             {
                 throw new ArgumentNullException(nameof(IInitialCards));
             }
-            PlayerCards.Add(IInitialCards[0]);
+            t = IInitialCards[0];
             IInitialCards.RemoveAt(0);
+            return t;
         }
+
+        
         #endregion
-        //测试方法
-        public static void test(int a)
-        {
-            a = a - 1;
-        }
+        
+       
 
     }
 }

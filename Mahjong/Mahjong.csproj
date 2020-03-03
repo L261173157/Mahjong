@@ -80,7 +80,7 @@
     <Compile Include="Method\ICommon.cs" />
     <Compile Include="Method\Player.cs" />
     <Compile Include="Method\BaseMethod.cs" />
-    <Compile Include="Model\BaseModel.cs" />
+    <Compile Include="Model\BaseCards.cs" />
     <Compile Include="Model\TypeModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
