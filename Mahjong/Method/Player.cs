@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using Mahjong.Model;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Mahjong.Method
 {
@@ -48,31 +49,39 @@ namespace Mahjong.Method
         /// <returns>已打的牌</returns>
         public TypeModel Play(int SerialNumber)
         {
-            TypeModel tempPlayed; 
+            TypeModel t; 
             if (IsComputer==false)
             {
                 if (SerialNumber!=-1)
                 {
-                    tempPlayed = PlayerCards[SerialNumber];
-                    PlayerCards.RemoveAt(SerialNumber);
-                    return tempPlayed;
+                    t =new TypeModel(PlayerCards[SerialNumber]) ;
+                    if (Application.Current != null)
+                    {
+                        Application.Current?.Dispatcher.Invoke((Action)(() => { PlayerCards.RemoveAt(SerialNumber); }));
+                    }
+                    return t;
                 }
                 else
                 {
-                    tempPlayed = PlayerCards.Last();
-                    PlayerCards.RemoveAt(PlayerCards.Count-1);
-                    return tempPlayed;
+                    t =new TypeModel(PlayerCards.Last()) ;
+                    if (Application.Current != null)
+                    {
+                        Application.Current?.Dispatcher.Invoke((Action)(() => { PlayerCards.RemoveAt(PlayerCards.Count - 1); }));
+                    }
+                    return t;
                 }
-                
             }
             else
             {
                 //需添加打牌判断
-                Random random = new Random();
-                int Index = random.Next(PlayerCards.Count);
-                tempPlayed= PlayerCards[Index];
-                PlayerCards.RemoveAt(Index);
-                return tempPlayed;
+                    Random random = new Random();
+                    int Index = random.Next(PlayerCards.Count);
+                    t =new TypeModel(PlayerCards[Index]);
+                    if (Application.Current!=null)
+                    {
+                        Application.Current?.Dispatcher.Invoke((Action)(() => { PlayerCards.RemoveAt(Index); }));
+                    }
+                    return t; 
             }
             Sort();
         }
@@ -119,9 +128,29 @@ namespace Mahjong.Method
         /// <param name="t"></param>
         public void Commmence(TypeModel t)
         {
-
-            PlayerCards.Add(new TypeModel(t));
-            t.Clear();
+            if (Application.Current != null)
+            {
+                Application.Current?.Dispatcher.Invoke((Action)(() => 
+                { 
+                    PlayerCards.Add(new TypeModel(t));
+                    t.Clear();
+                }));
+            }
+        }
+        /// <summary>
+        /// 入手到已打牌
+        /// </summary>
+        /// <param name="t"></param>
+        public void CommmencePlayed(TypeModel t)
+        {
+            if (Application.Current != null)
+            {
+                Application.Current?.Dispatcher.Invoke((Action)(() =>
+                {
+                    PlayedCards.Add(new TypeModel(t));
+                    t.Clear();
+                }));
+            }
         }
 
         #endregion

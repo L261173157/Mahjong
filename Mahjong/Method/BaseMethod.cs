@@ -116,7 +116,7 @@ namespace Mahjong.Method
             {
                 throw new ArgumentNullException(nameof(IInitialCards));
             }
-            t = IInitialCards[0];
+            t =new TypeModel(IInitialCards[0]) ;
             IInitialCards.RemoveAt(0);
             return t;
         }

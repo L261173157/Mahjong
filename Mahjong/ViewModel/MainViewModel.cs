@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using Mahjong.Method;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace Mahjong.ViewModel
@@ -15,7 +16,7 @@ namespace Mahjong.ViewModel
         {
             baseCards = new BaseCards();
             baseMethod = new BaseMethod();
-            eastPlayer = new Player() { IsComputer = true};
+            eastPlayer = new Player() { IsComputer = false};
             southPlayer = new Player() { IsComputer = true };
             westPlayer = new Player() { IsComputer = true };
             northPlayer = new Player() { IsComputer = true };
@@ -100,12 +101,20 @@ namespace Mahjong.ViewModel
             set { playerOrder = value; RaisePropertyChanged(nameof(PlayerOrder)); }
         }
 
-        private int playNumber = -1;
+        private int operateNumber = -1;
 
-        public int PlayNumber
+        public int OperateNumber
         {
-            get { return playNumber; }
-            set { playNumber = value; RaisePropertyChanged(nameof(PlayNumber)); }
+            get { return operateNumber; }
+            set { operateNumber = value; RaisePropertyChanged(nameof(OperateNumber)); }
+        }
+
+        private bool operateStatus=false;
+
+        public bool OperateStatus
+        {
+            get { return operateStatus; }
+            set { operateStatus = value; RaisePropertyChanged(nameof(OperateStatus)); }
         }
 
 
@@ -133,28 +142,34 @@ namespace Mahjong.ViewModel
             }
         }
 
-        private RelayCommand<string> eastPlayCmd;
+        private RelayCommand<string> operateCmd;
         /// <summary>
         /// 东玩家打牌
         /// </summary>
-        public RelayCommand<string> EastPlayCmd
+        public RelayCommand<string> OperateCmd
         {
             get
             {
-                if (eastPlayCmd == null)
-                    return new RelayCommand<string>(EastPlay);
-                return eastPlayCmd;
+                if (operateCmd == null)
+                    return new RelayCommand<string>(Operate);
+                return operateCmd;
             }
             set
             {
-                eastPlayCmd = value;
+                operateCmd = value;
             }
         }
+
         #endregion
         #region 命令方法
 
         private void start()
         {
+            EastPlayer.PlayedCards.Clear();
+            SouthPlayer.PlayedCards.Clear();
+            WestPlayer.PlayedCards.Clear();
+            NorthPlayer.PlayedCards.Clear();
+
             baseCards.InitialCards = BaseMethod.ShuffleCards(baseCards.InitialCards);
             BaseMethod.FirstDealCards(baseCards.InitialCards, eastPlayer.PlayerCards, SouthPlayer.PlayerCards, WestPlayer.PlayerCards, NorthPlayer.PlayerCards);
             eastPlayer.Sort();
@@ -164,26 +179,43 @@ namespace Mahjong.ViewModel
             status = 100;
             playerOrder = Seat.East;
 
+            Task.Run(MainFlow);
             //主流程流转另开线程
             //Thread t = new Thread(MainFlow);
+            //t.IsBackground = true;
             //t.Start();
-            MainFlow();
+            //MainFlow();
         }
 
-        private void EastPlay(string SerialNumer)
+        private void Operate(string SerialNumer)
         {
-            if (Status == 110)
-            {
-                PlayNumber = Convert.ToInt32(SerialNumer);
-            }
+            OperateNumber = Convert.ToInt32(SerialNumer);
+            OperateStatus = true;
         }
+
+        
         #endregion
         #region 普通方法
 
-        private void MainFlow()
+        private int Operate()
         {
+            int t=0;
+            
             do
             {
+               t= OperateNumber;
+            } while (!OperateStatus);
+            OperateStatus = false;
+            return t;
+            
+        }
+
+        private void MainFlow()
+        {
+            
+            do
+            {
+                Thread.Sleep(1000);
                 if (baseCards.InitialCards.Count==0)
                 {
                     status = 2000;
@@ -219,7 +251,11 @@ namespace Mahjong.ViewModel
                         status = 140;
                         break;
                     case 140://打牌
-                        BaseCards.UndeterminedCard = PlayFlow();
+                        BaseCards.UndeterminedCard =new TypeModel(PlayFlow()) ;
+                        status = 190;
+                        break;
+                    case 190:
+                        CommmencePlayed(BaseCards.UndeterminedCard);
                         status = 100;
                         PlayerOrderChange();
                         break;
@@ -234,16 +270,16 @@ namespace Mahjong.ViewModel
             switch (playerOrder)
             {
                 case Seat.East:
-                    playerOrder = Seat.South;
+                    PlayerOrder = Seat.South;
                     break;
                 case Seat.South:
-                    playerOrder = Seat.West;
+                    PlayerOrder = Seat.West;
                     break;
                 case Seat.West:
-                    playerOrder = Seat.North;
+                    PlayerOrder = Seat.North;
                     break;
                 case Seat.North:
-                    playerOrder = Seat.East;
+                    PlayerOrder = Seat.East;
                     break;
                 default:
                     break;
@@ -252,23 +288,7 @@ namespace Mahjong.ViewModel
         
         private void DealCardsFlow()
         {
-            switch (playerOrder)
-            {
-                case Seat.East:
-                    BaseCards.UndeterminedCard = BaseMethod.DealCards(baseCards.InitialCards);
-                    break;
-                case Seat.South:
-                    BaseCards.UndeterminedCard = BaseMethod.DealCards(baseCards.InitialCards);
-                    break;
-                case Seat.West:
-                    BaseCards.UndeterminedCard = BaseMethod.DealCards(baseCards.InitialCards);
-                    break;
-                case Seat.North:
-                    BaseCards.UndeterminedCard = BaseMethod.DealCards(baseCards.InitialCards);
-                    break;
-                default:
-                    break;
-            }
+            BaseCards.UndeterminedCard = new TypeModel(BaseMethod.DealCards(baseCards.InitialCards));
         }
 
         private int JudgeClaimFlow()
@@ -283,14 +303,40 @@ namespace Mahjong.ViewModel
 
         private void CommmenceFlow(TypeModel t)
         {
-
-        }
-        private TypeModel PlayFlow()
-        {
             switch (playerOrder)
             {
                 case Seat.East:
-                    return eastPlayer.Play(0);
+                    EastPlayer.Commmence(t);
+                    break;
+                case Seat.South:
+                    SouthPlayer.Commmence(t);
+                    break;
+                case Seat.West:
+                    WestPlayer.Commmence(t);
+                    break;
+                case Seat.North:
+                    NorthPlayer.Commmence(t);
+                    break;
+                default:
+                    break;
+            }
+        }
+        private  TypeModel PlayFlow()
+        {
+            TypeModel t;
+            switch (playerOrder)
+            {
+                case Seat.East:
+                    if (EastPlayer.IsComputer)
+                    {
+                        return eastPlayer.Play(0);
+                    }
+                    else
+                    {
+                        t = new TypeModel(eastPlayer.Play(Operate()));
+                        return t;
+                    }
+                    
                 case Seat.South:
                     return southPlayer.Play(0);
                 case Seat.West:
@@ -299,6 +345,27 @@ namespace Mahjong.ViewModel
                     return northPlayer.Play(0); 
                 default:
                     return new TypeModel();
+            }
+        }
+
+        private void CommmencePlayed(TypeModel t)
+        {
+            switch (playerOrder)
+            {
+                case Seat.East:
+                    EastPlayer.CommmencePlayed(t);
+                    break;
+                case Seat.South:
+                    SouthPlayer.CommmencePlayed(t);
+                    break;
+                case Seat.West:
+                    WestPlayer.CommmencePlayed(t);
+                    break;
+                case Seat.North:
+                    NorthPlayer.CommmencePlayed(t);
+                    break;
+                default:
+                    break;
             }
         }
         #endregion
